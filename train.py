@@ -71,6 +71,9 @@ def train(rank, a, h, warm_start):
     if state_dict_do is not None or warm_start:
         optim_g.load_state_dict(state_dict_do['optim_g'])
         optim_d.load_state_dict(state_dict_do['optim_d'])
+    if warm_start:
+        optim_g.param_groups[0]["lr"] = h.learning_rate
+        optim_d.param_groups[0]["lr"] = h.learning_rate
 
     scheduler_g = torch.optim.lr_scheduler.ExponentialLR(optim_g, gamma=h.lr_decay, last_epoch=last_epoch)
     scheduler_d = torch.optim.lr_scheduler.ExponentialLR(optim_d, gamma=h.lr_decay, last_epoch=last_epoch)
