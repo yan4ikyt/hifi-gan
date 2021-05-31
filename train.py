@@ -110,6 +110,8 @@ def train(rank, a, h, warm_start):
     mpd.train()
     msd.train()
     for epoch in range(max(0, last_epoch), a.training_epochs):
+        for param_group in optim_g.param_groups:
+            print("Current learning rate: " + str(param_group["lr"]))
         if rank == 0:
             start = time.time()
             print("Epoch: {}".format(epoch+1))
